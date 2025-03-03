@@ -1,15 +1,3 @@
-/******************************************************************************/
-/* System Name : AUTOSAR Diagnostic Event Manager (DEM)                      */
-/* File Name   : Rte_DEM.c                                                    */
-/* Version     : v1.0.0                                                        */
-/* Contents    : DEM Implementation for ECU2_FIControl                        */
-/* Author      : Generated                                                     */
-/* Note        : Handles error logging and reporting                          */
-/******************************************************************************/
-
-/*----------------------------------------------------------------------------*/
-/* Include headers                                                            */
-/*----------------------------------------------------------------------------*/
 #include "../Inc/Rte_Dem.h"
 #include "../../BSW/Inc/Services/Dem.h"
 #include <stdio.h>

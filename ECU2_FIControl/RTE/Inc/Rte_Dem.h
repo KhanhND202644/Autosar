@@ -1,12 +1,3 @@
-/******************************************************************************/
-/* System Name : AUTOSAR Diagnostic Event Manager (DEM)                      */
-/* File Name   : Rte_DEM.h                                                    */
-/* Version     : v1.0.0                                                        */
-/* Contents    : DEM Header for ECU2_FIControl                                */
-/* Author      : Generated                                                     */
-/* Note        : Provides interface for error logging and reporting           */
-/******************************************************************************/
-
 #ifndef RTE_DEM_H
 #define RTE_DEM_H
 

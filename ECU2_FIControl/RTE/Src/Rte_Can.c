@@ -1,8 +1,4 @@
-
-/*----------------------------------------------------------------------------*/
-/* Include headers                                                            */
-/*----------------------------------------------------------------------------*/
-#include "Rte_Can.h"
+#include "../Inc/Rte_Can.h"
 #include "ComHwAb_Can.h"
 #include <stdio.h>
 
@@ -19,11 +15,17 @@ FUNC(Std_ReturnType, CANCOM_CODE) Rte_Read_CanSpeed(
     {
         printf("Warning: Failed to receive speed from CAN\n");
         *speed = 0.0F; /* Default value if read fails */
-    }
-    else
-    {
-        printf("Received Speed from CAN: %.2f m/s\n", *speed);
+        return ret_val;
     }
 
-    return ret_val;
+    /* Validate received speed range */
+    if (*speed < 0.0F || *speed > 300.0F)
+    {
+        printf("Error: Received invalid speed %.2f m/s from CAN\n", *speed);
+        *speed = 0.0F; /* Reset to default if out of range */
+        return E_NOT_OK;
+    }
+
+    printf("Received Speed from CAN: %.2f m/s\n", *speed);
+    return E_OK;
 }

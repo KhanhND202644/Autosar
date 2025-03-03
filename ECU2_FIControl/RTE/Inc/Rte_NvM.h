@@ -1,12 +1,3 @@
-/******************************************************************************/
-/* System Name : AUTOSAR Non-Volatile Memory Manager (NvM)                    */
-/* File Name   : Rte_NvM.h                                                    */
-/* Version     : v1.1.0                                                        */
-/* Contents    : NvM Header for ECU2_FIControl                                */
-/* Author      : Updated                                                       */
-/* Note        : Provides interface for storage and retrieval of critical data */
-/******************************************************************************/
-
 #ifndef RTE_NVM_H
 #define RTE_NVM_H
 

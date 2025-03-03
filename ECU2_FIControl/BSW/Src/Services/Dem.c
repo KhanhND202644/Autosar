@@ -1,6 +1,6 @@
 #include "Dem.h"
 #include "NvM.h"
-#include "Rte_FIControl.h"
+#include "../../RTE/Inc/Rte_WdgM.h"
 #include <stdio.h>
 
 /*----------------------------------------------------------------------------*/
@@ -37,26 +37,13 @@ FUNC(Std_ReturnType, DEM_CODE) Dem_ReportErrorStatus(
         printf("DEM Warning: Failed to save error to NvM!\n");
     }
 
-    printf("DEM: Logged Event ID: 0x%X, Status: %d\n", EventID, EventStatus);
-    return E_OK;
-}
-
-/*----------------------------------------------------------------------------*/
-/* Retrieve Last Logged Error                                                 */
-/*----------------------------------------------------------------------------*/
-FUNC(Std_ReturnType, DEM_CODE) Dem_GetLastError(
-    P2VAR(uint16, AUTOMATIC, RTE_APPL_DATA) EventID,
-    P2VAR(uint8, AUTOMATIC, RTE_APPL_DATA) EventStatus)
-{
-    if (Dem_EventCount == 0)
+    /* Trigger Watchdog Manager to confirm ECU is alive */
+    if (R_TriggerWatchdog() != E_OK)
     {
-        printf("DEM Warning: No error events recorded. Checking NvM.\n");
-        return NvM_ReadError(EventID, EventStatus);
+        printf("DEM Warning: Failed to trigger watchdog!\n");
     }
 
-    *EventID = Dem_EventIDs[Dem_EventCount - 1];
-    *EventStatus = Dem_EventStatus[Dem_EventCount - 1];
-
+    printf("DEM: Logged Event ID: 0x%X, Status: %d\n", EventID, EventStatus);
     return E_OK;
 }
 
@@ -70,30 +57,9 @@ FUNC(void, DEM_CODE) Dem_CheckSpeed(VAR(float, AUTOMATIC) currentSpeed)
         printf("DEM: Overspeed detected (%.2f km/h), logging error.\n", currentSpeed);
         Dem_ReportErrorStatus(DTC_OVERSPEED, DEM_EVENT_STATUS_FAILED);
     }
-}
-
-/*----------------------------------------------------------------------------*/
-/* DEM Clear Error Implementation                                             */
-/*----------------------------------------------------------------------------*/
-FUNC(Std_ReturnType, DEM_CODE) Dem_ClearError(
-    VAR(uint16, AUTOMATIC) EventID)
-{
-    for (VAR(uint8, AUTOMATIC) i = 0; i < Dem_EventCount; i++)
+    else
     {
-        if (Dem_EventIDs[i] == EventID)
-        {
-            /* Remove event by shifting array */
-            for (VAR(uint8, AUTOMATIC) j = i; j < (Dem_EventCount - 1); j++)
-            {
-                Dem_EventIDs[j] = Dem_EventIDs[j + 1];
-                Dem_EventStatus[j] = Dem_EventStatus[j + 1];
-            }
-            Dem_EventCount--;
-            printf("DEM: Cleared Event ID: 0x%X\n", EventID);
-            return E_OK;
-        }
+        printf("DEM: Speed is within safe limits (%.2f km/h).\n", currentSpeed);
+        Dem_ReportErrorStatus(DTC_OVERSPEED, DEM_EVENT_STATUS_PASSED);
     }
-
-    printf("DEM Warning: Event ID 0x%X not found.\n", EventID);
-    return E_NOT_OK;
 }

@@ -1,4 +1,4 @@
-#include "../../Inc/Service/Os.h"
+#include "../../Inc/Services/Os.h"
 #include "../../../RTE/Src/Rte_Partition.c"
 
 /*----------------------------------------------------------------------------*/
@@ -28,9 +28,6 @@ void WaitEvent(uint32 EventMask) {
     /* Wait event */
 }
 
-void GetEvent(uint8 TaskID, uint32* EventMask) {
-    /* Lấy sự kiện của Task */
-}
 
 /*----------------------------------------------------------------------------*/
 /* Task Implementations                                                       */

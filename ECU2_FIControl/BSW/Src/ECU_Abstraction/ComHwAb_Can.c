@@ -1,7 +1,7 @@
 /******************************************************************************/
 /* System Name : AUTOSAR Communication Hardware Abstraction (ComHwAb)         */
 /* File Name   : ComHwAb_Can.c                                                */
-/* Version     : v1.0.2                                                         */
+/* Version     : v1.0.3                                                         */
 /* Contents    : CAN Hardware Abstraction Layer for ECU2_FIControl            */
 /* Author      : Updated                                                       */
 /* Note        : Implements CAN reception from CanIf                           */
@@ -20,12 +20,11 @@
 /*----------------------------------------------------------------------------*/
 FUNC(Std_ReturnType, COMHWAB_CODE) ComHwAb_CanReceive(
     VAR(uint16, AUTOMATIC) signalID,
-    P2VAR(uint8, AUTOMATIC, RTE_APPL_DATA) data,
-    P2VAR(uint8, AUTOMATIC, RTE_APPL_DATA) length)
+    P2VAR(float, AUTOMATIC, RTE_APPL_DATA) speed)
 {
     VAR(Std_ReturnType, AUTOMATIC) ret_val = E_OK;
     VAR(CanIf_RxPduIdType, AUTOMATIC) pduId;
-    VAR(uint8, AUTOMATIC) canData[CAN_MSG_DLC_SPEED];
+    VAR(uint8, AUTOMATIC) data[CAN_MSG_DLC_SPEED];
     VAR(uint32, AUTOMATIC) speedInt;
 
     /* Map signalID to CAN PDU ID */
@@ -39,7 +38,7 @@ FUNC(Std_ReturnType, COMHWAB_CODE) ComHwAb_CanReceive(
     }
 
     /* Receive CAN data */
-    ret_val = CanIf_Receive(pduId, canData);
+    ret_val = CanIf_Receive(pduId, data);
 
     if (ret_val != E_OK)
     {
@@ -48,12 +47,11 @@ FUNC(Std_ReturnType, COMHWAB_CODE) ComHwAb_CanReceive(
     }
 
     /* Convert CAN Data to Float */
-    speedInt = ((uint32)canData[0] << 24) | ((uint32)canData[1] << 16) |
-               ((uint32)canData[2] << 8) | ((uint32)canData[3]);
+    speedInt = ((uint32)data[0] << 24) | ((uint32)data[1] << 16) |
+               ((uint32)data[2] << 8) | ((uint32)data[3]);
 
-    *data = speedInt;
-    *length = sizeof(speedInt);
+    *speed = (float)speedInt / 100.0F;  /* Chuyển đổi lại về float */
 
-    printf("Received Speed from CAN: %u\n", speedInt);
+    printf("Received Speed from CAN: %.2f m/s\n", *speed);
     return E_OK;
 }

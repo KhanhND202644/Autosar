@@ -8,29 +8,29 @@
 /*----------------------------------------------------------------------------*/
 /* CAN Transmission Handling                                                  */
 /*----------------------------------------------------------------------------*/
-FUNC(Std_ReturnType, COMSERVICES_CODE) ComServices_CanTransmit(
-    VAR(uint16, AUTOMATIC) signalID,
-    P2CONST(uint8, AUTOMATIC, RTE_APPL_DATA) data,
-    VAR(uint8, AUTOMATIC) length)
-{
-    VAR(Std_ReturnType, AUTOMATIC) ret_val = E_OK;
+// FUNC(Std_ReturnType, COMSERVICES_CODE) ComServices_CanTransmit(
+//     VAR(uint16, AUTOMATIC) signalID,
+//     P2CONST(uint8, AUTOMATIC, RTE_APPL_DATA) data,
+//     VAR(uint8, AUTOMATIC) length)
+// {
+//     VAR(Std_ReturnType, AUTOMATIC) ret_val = E_OK;
 
-    /* Validate data pointer */
-    if (data == NULL)
-    {
-        printf("Error: ComServices_CanTransmit - Null data pointer!\n");
-        return E_NOT_OK;
-    }
+//     /* Validate data pointer */
+//     if (data == NULL)
+//     {
+//         printf("Error: ComServices_CanTransmit - Null data pointer!\n");
+//         return E_NOT_OK;
+//     }
 
-    /* Forward data to ComHwAb for transmission */
-    ret_val = ComHwAb_CanTransmit(signalID, data, length);
+//     /* Forward data to ComHwAb for transmission */
+//     ret_val = ComHwAb_CanTransmit(signalID, data, length);
 
-    if (ret_val != E_OK)
-    {
-        printf("Error: CAN Transmission Failed for SignalID %d\n", signalID);
-    }
-    return ret_val;
-}
+//     if (ret_val != E_OK)
+//     {
+//         printf("Error: CAN Transmission Failed for SignalID %d\n", signalID);
+//     }
+//     return ret_val;
+// }
 
 /*----------------------------------------------------------------------------*/
 /* CAN Reception Handling                                                     */

@@ -1,4 +1,4 @@
-#include "../Inc/Os.h"
+#include "../../Inc/Service/Os.h"
 #include "../../../RTE/Src/Rte_Partition.c"
 
 /*----------------------------------------------------------------------------*/

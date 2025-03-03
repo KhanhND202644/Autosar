@@ -2,15 +2,20 @@
 #define RTE_CALIBPARA_H
 
 #include "Std_ReturnType.h"
+#include "../../../ECU1_VehicleSpeed/Common/Compiler.h"
 #include <stdint.h>
 
-/*----------------------------------------------------------------------------*/
-/* RTE APIs Prototype Declaration                                             */
-/*----------------------------------------------------------------------------*/
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-/* Read calibration parameter (e.g., speed threshold) */
-extern FUNC(Std_ReturnType, RTE_CODE) Rte_Read_RP_CalibPara_SpeedThreshold(
-    P2VAR(uint16, AUTOMATIC, RTE_APPL_DATA) threshold);
-#define Rte_Read_SpeedThreshold Rte_Read_RP_CalibPara_SpeedThreshold
+/* Provide calibration data */
+extern FUNC(Std_ReturnType, RTE_CODE_ECU2) Rte_Write_RP_CalibPara_SpeedThreshold(
+    VAR(uint16, AUTOMATIC) threshold);
+#define Rte_Write_SpeedThreshold Rte_Write_RP_CalibPara_SpeedThreshold
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif /* RTE_CALIBPARA_H */

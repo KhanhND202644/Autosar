@@ -2,25 +2,29 @@
 #define RTE_FICONTROL_H
 
 #include "Std_ReturnType.h"
+#include "../../../ECU1_VehicleSpeed/Common/Compiler.h"
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*----------------------------------------------------------------------------*/
-/* RTE APIs Prototype Declaration                                             */
+/* Function Prototype Declarations                                             */
 /*----------------------------------------------------------------------------*/
 
-/* Read speed data received from SpeedSensor */
-extern FUNC(Std_ReturnType, RTE_CODE) Rte_Read_RP_FIControl_SpeedData(
+/* Read speed data from CAN */
+extern FUNC(Std_ReturnType, RTE_CODE_ECU2) Rte_Read_RP_FIControl_ReceiveSpeed(
     P2VAR(uint16, AUTOMATIC, RTE_APPL_DATA) speed);
-#define Rte_Read_SpeedData Rte_Read_RP_FIControl_SpeedData
+#define Rte_Read_ReceiveSpeed Rte_Read_RP_FIControl_ReceiveSpeed
 
-/* Write fuel injector state */
-extern FUNC(Std_ReturnType, RTE_CODE) Rte_Write_RP_FIControl_InjectorState(
-    VAR(uint8, AUTOMATIC) injectorState);
+/* Write injector state */
+extern FUNC(Std_ReturnType, RTE_CODE_ECU2) Rte_Write_RP_FIControl_InjectorState(
+    VAR(uint8, AUTOMATIC) state);
 #define Rte_Write_InjectorState Rte_Write_RP_FIControl_InjectorState
 
-/* Call the runnable of FIControl */
-extern FUNC(Std_ReturnType, RTE_CODE) Rte_Call_RP_FIControlSWC_CheckSpeed(
-    VAR(void, AUTOMATIC));
-#define Rte_Call_CheckSpeed Rte_Call_RP_FIControlSWC_CheckSpeed
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif /* RTE_FICONTROL_H */

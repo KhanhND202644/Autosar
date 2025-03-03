@@ -55,4 +55,7 @@ typedef uint8 Std_ReturnType;
 /** @brief  Stop status */
 #define RTE_STATUS_STOP ((Std_ReturnType)0x00U)
 
+#define E_OK        0x00U  /* Operation successful */
+#define E_NOT_OK    0x01U  /* Operation failed */
+
 #endif /* STD_RETURNTYPE_H */

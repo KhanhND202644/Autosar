@@ -39,3 +39,6 @@ extern VAR(uint16, AUTOMATIC) NvM_StoredCalibration;
 #endif
 
 #endif /* NVM_H */
+
+// Function declaration for NvM_WriteBlock
+extern Std_ReturnType NvM_WriteBlock(uint32 BlockID, P2VAR(uint16, AUTOMATIC, NVM_APPL_DATA) DataPtr);

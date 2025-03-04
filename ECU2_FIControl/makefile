@@ -1,57 +1,38 @@
 # Compiler and flags
 CC = gcc
-INCLUDES = -I . -I BSW/Inc/Services/ -I RTE/ -I RTE/Inc/ -I Common/
-CFLAGS = -Wall -Wextra -Werror -std=c99 -g
+INCLUDES = -I . -I BSW/Inc/Services/ -I RTE/Inc/ -I Common/
+CFLAGS = -Wall -Wextra -Werror -std=c99 -g $(INCLUDES)
 
 # Directories
-SRC_DIR = src
+SRC_DIRS = ASW/Src BSW/Src/Services MCAL RTE/Src
 OBJ_DIR = obj
 BIN_DIR = bin
 
-# Source files
-SRC_FILES = \
-    main.c \
-    OS/Os.c \
-    AWS/FIControlSWC.c \
-    AWS/NvMBlockSWC.c \
-    AWS/CalibParaSWC.c \
-    RTE/Rte_FIControl.c \
-    RTE/Rte_CanCom.c \
-    RTE/Rte_DEM.c \
-    RTE/Rte_NvM.c \
-    RTE/Rte_WdgM.c \
-    RTE/Rte_CalibPara.c \
-    BSW/Service/CanIf.c \
-    BSW/Service/ComHwAb_Can.c \
-    BSW/Service/WdgIf.c \
-    BSW/Service/NvM.c \
-    BSW/Service/MemIf.c \
-    BSW/Service/Dem.c \
-    MCAL/CanDrv.c \
-    MCAL/FlashDrv.c \
-    MCAL/WdgDrv.c \
+# Tự động tìm tất cả các file .c trong thư mục nguồn
+SRCS = $(wildcard $(patsubst %, %/*.c, $(SRC_DIRS))) main.c
 
-# Object files
-OBJ_FILES = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
+# Chuyển đổi danh sách SRCS thành danh sách OBJS
+OBJS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRCS))
 
-# Output binary
+# Định nghĩa tệp nhị phân đầu ra
 TARGET = $(BIN_DIR)/ECU2_FIControl
 
-# Create necessary directories
+# Tạo thư mục nếu chưa có
 $(shell mkdir -p $(OBJ_DIR) $(BIN_DIR))
 
-# Default rule
+# Quy tắc mặc định
 all: $(TARGET)
 
-# Compile and link
-$(TARGET): $(OBJ_FILES)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ_FILES)
+# Quy tắc biên dịch nhị phân
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $(OBJS)
 
-# Compile each source file
+# Quy tắc biên dịch từng file .c thành .o
 $(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Clean rule
+# Clean
 clean:
 	rm -rf $(OBJ_DIR)/* $(BIN_DIR)/*
 

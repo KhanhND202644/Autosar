@@ -1,5 +1,11 @@
 #include "../../Inc/Services/Dem.h"
-#include "../../Inc/Services/NvM.h"
+#include "../../Inc/Services/NVM.h"
+#include "../../../Common/Std_ReturnType.h"
+
+#define BlockID 0x100 /* Example Block ID for NvM_WriteBlock */
+static uint16 DataBuffer = 0; /* Example data buffer for NvM_WriteBlock */
+static uint16* DataPtr = &DataBuffer;
+
 #include "../../RTE/Inc/Rte_WdgM.h"
 #include <stdio.h>
 
@@ -32,7 +38,7 @@ FUNC(Std_ReturnType, DEM_CODE) Dem_ReportErrorStatus(
     Dem_EventCount++;
 
     /* Store in NvM */
-    if (NvM_WriteError(EventID, EventStatus) != E_OK)
+    if (NvM_WriteBlock(BlockID, DataPtr) != E_OK)
     {
         printf("DEM Warning: Failed to save error to NvM!\n");
     }

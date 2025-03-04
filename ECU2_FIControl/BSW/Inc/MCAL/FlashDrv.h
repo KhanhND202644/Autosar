@@ -56,3 +56,8 @@ FUNC(Std_ReturnType, FLASHDRV_CODE) FlashDrv_Erase(
 #endif
 
 #endif /* FLASHDRV_H */
+
+// Function declarations for Flash Driver operations
+extern Std_ReturnType Fls_Write(uint32 address, const uint8* data, uint32 length);
+extern Std_ReturnType Fls_Read(uint32 address, uint8* data, uint32 length);
+extern Std_ReturnType Fls_Erase(uint32 address, uint32 length);

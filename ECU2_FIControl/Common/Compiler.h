@@ -1,7 +1,7 @@
 #ifndef COMPILER_H
 #define COMPILER_H
 
-#include <Compiler_Cfg.h>
+#include "Compiler_Cfg.h"
 
 /* Definitions */
 #define AUTOMATIC            

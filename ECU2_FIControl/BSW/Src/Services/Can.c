@@ -1,6 +1,7 @@
 #include "../../Inc/Services/Can.h"
 #include "../../Inc/ECU_Abstraction/ComHwAb_Can.h"
 #include "../../../RTE/Inc/Rte_Can.h"
+#include "../../Inc/Services/CanIf.h"
 #include "../../../Common/Std_ReturnType.h"
 #include "../../../Common/Compiler.h"
 #include <stdio.h>

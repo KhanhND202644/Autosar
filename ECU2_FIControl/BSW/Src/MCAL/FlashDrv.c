@@ -1,5 +1,5 @@
-#include "FlashDrv.h"
-#include "MemIf.h"
+#include "../../Inc/MCAL/FlashDrv.h"
+#include "../../Inc/Services/MemIf.h"
 #include <stdio.h>
 #include <string.h> 
 

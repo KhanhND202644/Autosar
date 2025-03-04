@@ -1,5 +1,5 @@
 #include "../Inc/NvMBlockSWC.h"
-#include "../../RTE/Inc/Rte_NvMBlock.h"
+#include "../../RTE/Inc/Rte_NvM.h"
 #include <stdio.h>
 
 /* Static Variables */

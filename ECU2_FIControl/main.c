@@ -1,10 +1,11 @@
-#include "Os.h"
-#include "Rte_FIControl.h"
-#include "Rte_Can.h"
-#include "Rte_DEM.h"
-#include "Rte_NvM.h"
-#include "Rte_WdgM.h"
-#include "Rte_CalibPara.h"
+#include "BSW/Inc/Services/Os.h"
+#include "RTE/Inc/Rte_FIControl.h"
+#include "RTE/Inc/Rte_Can.h"
+#include "RTE/Inc/Rte_WdgM.h"
+#include "RTE/Inc/Rte_NvM.h"
+#include "RTE/Inc/Rte_Dem.h"
+#include "RTE/Inc/Rte_CalibPara.h"
+
 #include <stdio.h>
 #include <unistd.h>  /* For sleep function */
 
@@ -15,6 +16,11 @@ int main(void)
 {
     printf("ECU2_FIControl: System Initializing...\n");
     StartOS(); /* Initialize OS */
+    
+    /* Restore last stored speed from NvM */
+    VAR(uint16, AUTOMATIC) restoredSpeed = 0;
+    NvM_ReadSpeed(&restoredSpeed);
+    printf("Restored Speed from NvM: %u km/h\n", restoredSpeed);
     
     /* Simulated system loop */
     for (int cycle = 0; cycle < 10; cycle++)
@@ -36,8 +42,13 @@ int main(void)
             Dem_ReportErrorStatus(0x1234, DEM_EVENT_STATUS_FAILED);
         }
         
-        /* Save speed to NvM */
+        /* Save speed to NvM (Flash Memory) */
         NvM_WriteSpeed((uint16)speed);
+        
+        /* Read back speed from NvM for verification */
+        VAR(uint16, AUTOMATIC) flashSpeed = 0;
+        NvM_ReadSpeed(&flashSpeed);
+        printf("Verified Speed in NvM: %u km/h\n", flashSpeed);
         
         /* Trigger Watchdog */
         R_TriggerWatchdog();

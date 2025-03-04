@@ -1,8 +1,8 @@
 #ifndef RTE_CALIBPARA_H
 #define RTE_CALIBPARA_H
 
-#include "Std_ReturnType.h"
-#include "../../../ECU1_VehicleSpeed/Common/Compiler.h"
+#include "../../Common/Std_ReturnType.h"
+#include "../../Common/Compiler.h"
 #include <stdint.h>
 
 #ifdef __cplusplus

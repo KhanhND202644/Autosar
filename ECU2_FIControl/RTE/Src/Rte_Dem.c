@@ -1,6 +1,6 @@
-#include "Rte_DEM.h"
-#include "Rte_NvM.h"
-#include "NvM.h"
+#include "../Inc/Rte_Dem.h"
+#include "../Inc/Rte_NvM.h"
+#include "../../BSW/Inc/Services/Dem.h"
 #include <stdio.h>
 
 /*----------------------------------------------------------------------------*/

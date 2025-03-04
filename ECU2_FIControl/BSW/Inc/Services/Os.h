@@ -1,8 +1,8 @@
 #ifndef OS_H
 #define OS_H
 
-#include "Std_ReturnType.h"
-#include "Compiler.h"
+#include "../../Common/Std_ReturnType.h"
+#include "../../Common/Compiler.h"
 
 /*----------------------------------------------------------------------------*/
 /* OS Configuration Constants                                                 */

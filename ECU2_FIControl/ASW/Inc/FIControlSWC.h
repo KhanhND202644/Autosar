@@ -2,8 +2,8 @@
 #define FI_CONTROL_SWC_H
 
 #include "../../RTE/Inc/Rte_FIControl.h"
-#include "RTE/Std_ReturnType.h"
-#include "Common/Compiler.h"
+#include "../../Common/Std_ReturnType.h"
+#include "../../Common/Compiler.h"
 
 /* Memory Mapping */
 #define FICONTROL_CODE RTE_CODE

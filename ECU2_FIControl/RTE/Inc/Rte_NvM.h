@@ -1,8 +1,8 @@
 #ifndef RTE_NVM_H
 #define RTE_NVM_H
 
-#include "Std_ReturnType.h"
-#include "Compiler.h"
+#include "../../Common/Std_ReturnType.h"
+#include "../../Common/Compiler.h"
 
 #ifdef __cplusplus
 extern "C" {

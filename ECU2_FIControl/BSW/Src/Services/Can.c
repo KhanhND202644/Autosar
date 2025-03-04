@@ -1,8 +1,8 @@
 #include "../../Inc/Services/Can.h"
 #include "../../Inc/ECU_Abstraction/ComHwAb_Can.h"
 #include "Rte_Can.h"
-#include "Std_ReturnType.h"
-#include "Std_Types.h"
+#include "../../Common/Std_ReturnType.h"
+#include "../../Common/Compiler.h"
 #include <stdio.h>
 
 /*----------------------------------------------------------------------------*/

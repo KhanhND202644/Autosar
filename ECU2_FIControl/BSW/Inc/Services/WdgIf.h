@@ -1,8 +1,8 @@
 #ifndef WDGIF_H
 #define WDGIF_H
 
-#include "Std_ReturnType.h"
-#include "Compiler.h"
+#include "../../Common/Std_ReturnType.h"
+#include "../../Common/Compiler.h"
 
 #ifdef __cplusplus
 extern "C" {

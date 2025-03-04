@@ -1,5 +1,5 @@
-#include "Rte_NvM.h"
-#include "NvM.h"
+#include "../Inc/Rte_NvM.h"
+#include "../../BSW/Inc/Services/NvM.h"
 #include <stdio.h>
 
 /*----------------------------------------------------------------------------*/

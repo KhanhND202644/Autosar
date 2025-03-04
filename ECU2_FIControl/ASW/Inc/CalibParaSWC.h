@@ -2,8 +2,8 @@
 #define CALIBPARA_SWC_H
 
 #include "../../RTE/Inc/Rte_CalibPara.h"
-#include "RTE/Std_ReturnType.h"
-#include "Common/Compiler.h"
+#include "../../Common/Std_ReturnType.h"
+#include "../../Common/Compiler.h"
 
 /* Memory Mapping */
 #define CALIBPARA_CODE RTE_CODE

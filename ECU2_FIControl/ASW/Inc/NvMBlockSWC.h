@@ -1,9 +1,9 @@
 #ifndef NVM_BLOCK_SWC_H
 #define NVM_BLOCK_SWC_H
 
-#include "../../RTE/Inc/Rte_NvMBlock.h"
-#include "RTE/Std_ReturnType.h"
-#include "Common/Compiler.h"
+#include "../../RTE/Inc/Rte_NvM.h"
+#include "../../Common/Std_ReturnType.h"
+#include "../../Common/Compiler.h"
 
 
 /* Memory Mapping */

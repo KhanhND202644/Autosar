@@ -1,5 +1,5 @@
-#include "Dem.h"
-#include "NvM.h"
+#include "../../Inc/Services/Dem.h"
+#include "../../Inc/Services/NvM.h"
 #include "../../RTE/Inc/Rte_WdgM.h"
 #include <stdio.h>
 

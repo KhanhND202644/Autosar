@@ -22,6 +22,7 @@
         "icu_driver.h": "c",
         "time.h": "c",
         "compiler.h": "c",
-        "compiler_cfg.h": "c"
+        "compiler_cfg.h": "c",
+        "rte_calibpara.h": "c"
     }
 }

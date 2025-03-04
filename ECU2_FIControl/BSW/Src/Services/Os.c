@@ -1,4 +1,10 @@
 #include "../../Inc/Services/Os.h"
+#include "Rte_FIControl.h"
+#include "Rte_Can.h"
+#include "Rte_DEM.h"
+#include "Rte_NvM.h"
+#include "Rte_WdgM.h"
+#include "Rte_CalibPara.h"
 #include <stdio.h>
 
 /*----------------------------------------------------------------------------*/
@@ -14,6 +20,7 @@ static VAR(uint32, AUTOMATIC) Os_Time = 0; /* System time */
 FUNC(void, OS_CODE) StartOS(void)
 {
     printf("OS: System Started\n");
+    Os_RunScheduler();
 }
 
 /*----------------------------------------------------------------------------*/
@@ -61,13 +68,16 @@ FUNC(void, OS_CODE) ClearEvent(EventMaskType EventMask)
 /*----------------------------------------------------------------------------*/
 FUNC(void, OS_CODE) Os_RunScheduler(void)
 {
-    Os_Time++;
+    while (1) /* Infinite loop to simulate real-time OS behavior */
+    {
+        Os_Time++;
 
-    /* Run Tasks based on schedule */
-    if (Os_Time % 10 == 0) ActivateTask(TASK_FICONTROL);
-    if (Os_Time % 5 == 0) ActivateTask(TASK_CANCOMM);
-    if (Os_Time % 50 == 0) ActivateTask(TASK_DEM);
-    if (Os_Time % 100 == 0) ActivateTask(TASK_NVM);
-    if (Os_Time % 100 == 0) ActivateTask(TASK_WDGM);
-    if (Os_Time % 100 == 0) ActivateTask(TASK_CALIBPARA);
+        /* Run Tasks based on schedule */
+        if (Os_Time % 10 == 0) ActivateTask(TASK_FICONTROL);
+        if (Os_Time % 5 == 0) ActivateTask(TASK_CANCOMM);
+        if (Os_Time % 50 == 0) ActivateTask(TASK_DEM);
+        if (Os_Time % 100 == 0) ActivateTask(TASK_NVM);
+        if (Os_Time % 100 == 0) ActivateTask(TASK_WDGM);
+        if (Os_Time % 100 == 0) ActivateTask(TASK_CALIBPARA);
+    }
 }

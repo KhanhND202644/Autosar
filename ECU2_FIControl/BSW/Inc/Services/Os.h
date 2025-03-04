@@ -1,43 +1,75 @@
 #ifndef OS_H
 #define OS_H
 
-#include "../../../ECU1_VehicleSpeed/RTE/Std_Types.h"
+#include "Std_ReturnType.h"
+#include "Compiler.h"
 
 /*----------------------------------------------------------------------------*/
-/* Task Identifiers                                                           */
+/* OS Configuration Constants                                                 */
 /*----------------------------------------------------------------------------*/
-#define OS_TASK_INJECTOR_CONTROL     1U  /* Event-driven */
-#define OS_TASK_FICONTROL            2U  /* Periodic (10ms) */
-#define OS_TASK_CAN_COMM             3U  /* Periodic (5ms) */
-#define OS_TASK_SENSOR_READ          4U  /* Periodic (10ms) */
-#define OS_TASK_DEM                  5U  /* Event-driven */
-#define OS_TASK_CALIB_PARA           6U  /* Periodic (50ms) */
-#define OS_TASK_WATCHDOG             7U  /* Periodic (100ms) */
-#define OS_TASK_NVM_STARTUP          8U  /* Startup */
-#define OS_TASK_NVM_LOGGING          9U  /* Periodic (100ms) */
+
+/* Task Identifiers */
+typedef enum
+{
+    TASK_FICONTROL,
+    TASK_CANCOMM,
+    TASK_DEM,
+    TASK_WDGM,
+    TASK_NVM,
+    TASK_CALIBPARA,
+    NUM_OF_TASKS /* Number of Tasks in the system */
+} TaskType;
+
+/* Event Mask definitions */
+typedef uint32 EventMaskType;
+
+/* Status Types */
+#define STATUS_OK 0
+#define STATUS_ERROR 1
 
 /*----------------------------------------------------------------------------*/
-/* Event Identifiers                                                          */
+/* Function Prototypes for OS API                                             */
 /*----------------------------------------------------------------------------*/
-#define EVT_INJECTOR_CONTROL        (1U << 0)
-#define EVT_FICONTROL               (1U << 1)
-#define EVT_CAN_COMM                (1U << 2)
-#define EVT_SENSOR_READ             (1U << 3)
-#define EVT_DEM                     (1U << 4)
-#define EVT_CALIB_PARA              (1U << 5)
-#define EVT_WATCHDOG                (1U << 6)
-#define EVT_NVM_STARTUP             (1U << 7)
-#define EVT_NVM_LOGGING             (1U << 8)
 
-/*----------------------------------------------------------------------------*/
-/* Function Prototypes                                                         */
-/*----------------------------------------------------------------------------*/
+/**
+ * @brief Starts the operating system
+ */
 extern void StartOS(void);
-extern void ActivateTask(uint8 TaskID);
+
+/**
+ * @brief Activate a Task
+ * @param TaskID ID of the Task to activate
+ */
+extern void ActivateTask(TaskType TaskID);
+
+/**
+ * @brief Terminate a running Task
+ */
 extern void TerminateTask(void);
-extern void SetEvent(uint8 TaskID, uint32 EventMask);
-extern void ClearEvent(uint32 EventMask);
-extern void WaitEvent(uint32 EventMask);
-extern void GetEvent(uint8 TaskID, uint32* EventMask);
+
+/**
+ * @brief Wait for an event (Task will be blocked until the event occurs)
+ * @param EventMask ID of the event to wait for
+ */
+extern void WaitEvent(EventMaskType EventMask);
+
+/**
+ * @brief Get the current event of the Task
+ * @param TaskID ID of the Task
+ * @param EventMask Pointer to store the received event value
+ */
+extern void GetEvent(TaskType TaskID, EventMaskType *EventMask);
+
+/**
+ * @brief Delete a processed event
+ * @param EventMask ID of the event to delete
+ */
+extern void ClearEvent(EventMaskType EventMask);
+
+/* Define the DeclareTask macro */
+#define DeclareTask(TaskName) void TaskName(void)
+
+/* Define the TASK macro */
+#define TASK(TaskName) void TaskName(void)
 
 #endif /* OS_H */

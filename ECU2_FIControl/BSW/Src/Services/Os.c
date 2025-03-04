@@ -1,115 +1,73 @@
 #include "../../Inc/Services/Os.h"
-#include "../../../RTE/Src/Rte_Partition.c"
+#include <stdio.h>
 
 /*----------------------------------------------------------------------------*/
-/* OS Kernel Simulation (Stub)                                                */
+/* Static Variables                                                           */
 /*----------------------------------------------------------------------------*/
-void StartOS(void) {
-    /* Run OS */
-}
-
-void ActivateTask(uint8 TaskID) {
-    /* Activate TaskID */
-}
-
-void TerminateTask(void) {
-    /* End task */
-}
-
-void SetEvent(uint8 TaskID, uint32 EventMask) {
-    /* Send event to Task */
-}
-
-void ClearEvent(uint32 EventMask) {
-    /* Clear event  */
-}
-
-void WaitEvent(uint32 EventMask) {
-    /* Wait event */
-}
-
+static VAR(uint8, AUTOMATIC) TaskStatus[NUM_OF_TASKS] = {0}; /* Stores active tasks */
+static VAR(uint8, AUTOMATIC) EventStatus[NUM_OF_TASKS] = {0}; /* Stores event flags */
+static VAR(uint32, AUTOMATIC) Os_Time = 0; /* System time */
 
 /*----------------------------------------------------------------------------*/
-/* Task Implementations                                                       */
+/* OS Initialization                                                          */
 /*----------------------------------------------------------------------------*/
-
-/*------------------------------------------------*/
-/* TASK: Injector_Control_Task (Event-driven)     */
-/*------------------------------------------------*/
-TASK (Injector_Control_Task) {
-    WaitEvent(EVT_INJECTOR_CONTROL);
-    ClearEvent(EVT_INJECTOR_CONTROL);
-    Rte_Call_RP_FIControlSWC_ControlFuelInjector();
+FUNC(void, OS_CODE) StartOS(void)
+{
+    printf("OS: System Started\n");
 }
 
-/*------------------------------------------------*/
-/* TASK: FIControl_Task (10ms)                     */
-/*------------------------------------------------*/
-TASK (FIControl_Task) {
-    WaitEvent(EVT_FICONTROL);
-    ClearEvent(EVT_FICONTROL);
-    Rte_Call_RP_FIControlSWC_CheckSpeed();
+/*----------------------------------------------------------------------------*/
+/* Activate Task                                                              */
+/*----------------------------------------------------------------------------*/
+FUNC(void, OS_CODE) ActivateTask(TaskType TaskID)
+{
+    if (TaskID < NUM_OF_TASKS)
+    {
+        TaskStatus[TaskID] = 1;
+        printf("OS: Task %d Activated\n", TaskID);
+    }
 }
 
-/*------------------------------------------------*/
-/* TASK: CAN_Comm_Task (5ms)                      */
-/*------------------------------------------------*/
-TASK (CAN_Comm_Task) {
-    WaitEvent(EVT_CAN_COMM);
-    ClearEvent(EVT_CAN_COMM);
-    Rte_Call_RP_CAN_Comm_Process();
+/*----------------------------------------------------------------------------*/
+/* Terminate Task                                                             */
+/*----------------------------------------------------------------------------*/
+FUNC(void, OS_CODE) TerminateTask(void)
+{
+    printf("OS: Task Terminated\n");
 }
 
-/*------------------------------------------------*/
-/* TASK: Sensor_Read_Task (10ms)                  */
-/*------------------------------------------------*/
-TASK (Sensor_Read_Task) {
-    WaitEvent(EVT_SENSOR_READ);
-    ClearEvent(EVT_SENSOR_READ);
-    Rte_Call_RP_SpeedSensorSWC_ReadSpeed();
+/*----------------------------------------------------------------------------*/
+/* Set Event for Task                                                         */
+/*----------------------------------------------------------------------------*/
+FUNC(void, OS_CODE) SetEvent(TaskType TaskID, EventMaskType EventMask)
+{
+    if (TaskID < NUM_OF_TASKS)
+    {
+        EventStatus[TaskID] |= EventMask;
+        printf("OS: Event %d set for Task %d\n", EventMask, TaskID);
+    }
 }
 
-/*------------------------------------------------*/
-/* TASK: DEM_Task (Event-driven)                  */
-/*------------------------------------------------*/
-TASK (DEM_Task) {
-    WaitEvent(EVT_DEM);
-    ClearEvent(EVT_DEM);
-    Rte_Call_RP_FIControlSWC_SendDiagnostics();
+/*----------------------------------------------------------------------------*/
+/* Clear Event                                                                */
+/*----------------------------------------------------------------------------*/
+FUNC(void, OS_CODE) ClearEvent(EventMaskType EventMask)
+{
+    printf("OS: Event %d Cleared\n", EventMask);
 }
 
-/*------------------------------------------------*/
-/* TASK: CalibPara_Task (50ms)                    */
-/*------------------------------------------------*/
-TASK (CalibPara_Task) {
-    WaitEvent(EVT_CALIB_PARA);
-    ClearEvent(EVT_CALIB_PARA);
-    Rte_Call_RP_CalibParaSWC_ProvideCalibrationData();
-}
+/*----------------------------------------------------------------------------*/
+/* OS Scheduler (Runs in a loop)                                              */
+/*----------------------------------------------------------------------------*/
+FUNC(void, OS_CODE) Os_RunScheduler(void)
+{
+    Os_Time++;
 
-/*------------------------------------------------*/
-/* TASK: Watchdog_Task (100ms)                    */
-/*------------------------------------------------*/
-TASK (Watchdog_Task) {
-    WaitEvent(EVT_WATCHDOG);
-    ClearEvent(EVT_WATCHDOG);
-    Rte_Call_RP_FIControlSWC_TriggerWatchdog();
-}
-
-/*------------------------------------------------*/
-/* TASK: NVM_Startup_Task (Startup)               */
-/*------------------------------------------------*/
-TASK (NVM_Startup_Task) {
-    WaitEvent(EVT_NVM_STARTUP);
-    ClearEvent(EVT_NVM_STARTUP);
-    Rte_Call_RP_NVBlockSWC_ReadSpeedFromNVM();
-}
-
-/*------------------------------------------------*/
-/* TASK: NVM_Logging_Task (100ms)                 */
-/*------------------------------------------------*/
-TASK (NVM_Logging_Task) {
-    WaitEvent(EVT_NVM_LOGGING);
-    ClearEvent(EVT_NVM_LOGGING);
-    Rte_Call_RP_NVBlockSWC_SaveSpeed();
+    /* Run Tasks based on schedule */
+    if (Os_Time % 10 == 0) ActivateTask(TASK_FICONTROL);
+    if (Os_Time % 5 == 0) ActivateTask(TASK_CANCOMM);
+    if (Os_Time % 50 == 0) ActivateTask(TASK_DEM);
+    if (Os_Time % 100 == 0) ActivateTask(TASK_NVM);
+    if (Os_Time % 100 == 0) ActivateTask(TASK_WDGM);
+    if (Os_Time % 100 == 0) ActivateTask(TASK_CALIBPARA);
 }

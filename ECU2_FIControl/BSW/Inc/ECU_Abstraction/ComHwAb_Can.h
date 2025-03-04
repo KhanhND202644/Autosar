@@ -11,7 +11,7 @@
 #define COMHWAB_CAN_H
 
 #include "Std_Types.h"
-#include "../MCAL/CanIf.h"
+#include "../Services/CanIf.h"
 
 #ifdef __cplusplus
 extern "C" {

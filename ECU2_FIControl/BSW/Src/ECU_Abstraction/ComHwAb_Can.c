@@ -11,7 +11,7 @@
 /* Include headers                                                            */
 /*----------------------------------------------------------------------------*/
 #include "../../Inc/ECU_Abstraction/ComHwAb_Can.h"
-#include "../../Inc/MCAL/CanIf.h"
+#include "../../Inc/Services/CanIf.h"
 #include "Std_ReturnType.h"
 #include <stdio.h>
 

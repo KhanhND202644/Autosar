@@ -29,3 +29,11 @@ FUNC(Std_ReturnType, CANCOM_CODE) Rte_Read_CanSpeed(
     printf("Received Speed from CAN: %.2f m/s\n", *speed);
     return E_OK;
 }
+
+#include "Rte_Can.h"
+
+FUNC(Std_ReturnType, RTE_CODE) Rte_Read_CANMessage(VAR(float, AUTOMATIC) *speed) {
+    // Giả lập dữ liệu đọc từ CAN (giá trị mặc định)
+    *speed = 50.0;  // Giá trị giả lập, có thể thay đổi sau
+    return E_OK;
+}

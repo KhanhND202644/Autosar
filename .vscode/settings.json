@@ -23,6 +23,7 @@
         "time.h": "c",
         "compiler.h": "c",
         "compiler_cfg.h": "c",
-        "rte_calibpara.h": "c"
+        "rte_calibpara.h": "c",
+        "rte_nvm.h": "c"
     }
 }

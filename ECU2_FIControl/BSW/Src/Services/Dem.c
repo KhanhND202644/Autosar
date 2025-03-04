@@ -1,5 +1,5 @@
 #include "../../Inc/Services/Dem.h"
-#include "../../Inc/Services/NVM.h"
+#include "../../Inc/Services/NvM.h"
 #include "../../../Common/Std_ReturnType.h"
 
 #define BlockID 0x100 /* Example Block ID for NvM_WriteBlock */

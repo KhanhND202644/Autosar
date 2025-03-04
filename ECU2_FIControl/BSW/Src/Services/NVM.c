@@ -1,4 +1,4 @@
-#include "../../Inc/Services/NVM.h"
+#include "../../Inc/Services/NvM.h"
 #include "../../Inc/Services/MemIf.h"
 #include <stdio.h>
 

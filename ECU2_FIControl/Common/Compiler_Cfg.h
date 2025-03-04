@@ -1,18 +1,3 @@
-/** \file         Compiler_Cfg.h
- *
- * \brief        System-wide compiler configuration settings for ISOLAR-EVE ( target platform: VRTA-ux/VRTA-win )
- *
- * [$crn:2007:dox
- * \copyright Copyright 2014 ETAS GmbH
- * $]
- *
- * \note         PLATFORM DEPENDENT [yes/no]: yes
- *
- * \note         TO BE CHANGED BY USER [yes/no]: yes
- *
- * $Id: Compiler_Cfg.h 2379 2014-08-10 12:55:57Z pin9fe $
- */
-
 #ifndef COMPILER_CFG_H
 #define COMPILER_CFG_H
 

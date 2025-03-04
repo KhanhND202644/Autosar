@@ -16,7 +16,7 @@ FUNC(Std_ReturnType, FICONTROL_CODE) R_CheckSpeed(VAR(void, AUTOMATIC))
     VAR(Std_ReturnType, AUTOMATIC) status;
     
     /* Read speed from CAN */
-    status = Rte_Read_CanSpeed(&currentSpeed);
+    status = Rte_Read_CANMessage(&currentSpeed);
     if (status != E_OK)
     {
         printf("FIControlSWC: Failed to read speed from CAN. Using default.\n");

@@ -4,6 +4,8 @@
 #include "../../../Common/Std_ReturnType.h"
 #include "../../../Common/Compiler.h"
 
+extern FUNC(void, DEM_CODE) Dem_CheckSpeed(uint16_t speed);
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -29,6 +31,8 @@ FUNC(Std_ReturnType, DEM_CODE) Dem_GetLastError(
 
 FUNC(Std_ReturnType, DEM_CODE) Dem_ClearError(
     VAR(uint16, AUTOMATIC) EventID);
+
+extern FUNC(void, DEM_CODE) Dem_CheckSpeed(uint16_t speed);
 
 #ifdef __cplusplus
 } /* extern "C" */

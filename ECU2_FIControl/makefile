@@ -1,6 +1,6 @@
 # Compiler and flags
 CC = gcc
-INCLUDES = -I . -I BSW/Inc/Services/ -I RTE/ -I RTE/Inc/
+INCLUDES = -I . -I BSW/Inc/Services/ -I RTE/ -I RTE/Inc/ -I Common/
 CFLAGS = -Wall -Wextra -Werror -std=c99 -g
 
 # Directories

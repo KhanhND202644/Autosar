@@ -1,8 +1,8 @@
 #ifndef NVM_H
 #define NVM_H
 
-#include "../../Common/Std_ReturnType.h"
-#include "../../Common/Compiler.h"
+#include "../../../Common/Std_ReturnType.h"
+#include "../../../Common/Compiler.h"
 
 #ifdef __cplusplus
 extern "C" {

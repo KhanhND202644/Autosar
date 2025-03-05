@@ -24,6 +24,11 @@
         "compiler.h": "c",
         "compiler_cfg.h": "c",
         "rte_calibpara.h": "c",
-        "rte_nvm.h": "c"
+        "rte_nvm.h": "c",
+        "candrv.h": "c",
+        "random": "c",
+        "rte_can.h": "c",
+        "rte_ficontrol.h": "c",
+        "canif.h": "c"
     }
 }

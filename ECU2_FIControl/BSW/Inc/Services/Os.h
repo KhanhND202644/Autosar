@@ -35,6 +35,7 @@ typedef uint32 EventMaskType;
  * @brief Starts the operating system
  */
 extern void StartOS(void);
+extern void Os_RunScheduler(void);
 
 /**
  * @brief Activate a Task

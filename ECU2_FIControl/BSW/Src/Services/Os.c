@@ -17,11 +17,13 @@ static VAR(uint32, AUTOMATIC) Os_Time = 0; /* System time */
 /*----------------------------------------------------------------------------*/
 /* OS Initialization                                                          */
 /*----------------------------------------------------------------------------*/
-FUNC(void, OS_CODE) StartOS(void)
-{
-    printf("OS: System Started\n");
+FUNC(void, OS_CODE) Os_RunScheduler(void); /* Ensure function is declared before use */
+
+FUNC(void, OS_CODE) StartOS(void) {
+    /* OS Initialization Code */
     Os_RunScheduler();
 }
+
 
 /*----------------------------------------------------------------------------*/
 /* Activate Task                                                              */

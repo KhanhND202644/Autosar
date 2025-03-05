@@ -1,42 +1,15 @@
-/******************************************************************************/
-/* System Name : AUTOSAR Communication Hardware Abstraction (ComHwAb)         */
-/* File Name   : ComHwAb_Can.h                                                */
-/* Version     : v1.0.0                                                         */
-/* Contents    : CAN Hardware Abstraction Layer Header for ECU2_FIControl      */
-/* Author      : Generated                                                      */
-/* Note        : Acts as a bridge between ComServices and CanIf                */
-/******************************************************************************/
+#ifndef CAN_H
+#define CAN_H
 
-#ifndef COMHWAB_CAN_H
-#define COMHWAB_CAN_H
-
+#include "../../Inc/ECU_Abstraction/ComHwAb_Can.h"
+#include "../../../RTE/Inc/Rte_Can.h"
 #include "../../../Common/Std_ReturnType.h"
-#include "CanIf.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+/* Define CAN ID for Speed Data */
+#define CAN_ID_SPEED_DATA 0x100U
+#define CAN_DLC_SPEED_DATA 4U
 
-/*----------------------------------------------------------------------------*/
-/* Macro Definitions                                                          */
-/*----------------------------------------------------------------------------*/
-#define COMHWAB_CODE
+/* Function prototype for Can_Receive */
+FUNC(Std_ReturnType, CAN_CODE) Can_Receive(P2VAR(uint8, AUTOMATIC, RTE_APPL_DATA) data, P2VAR(uint8, AUTOMATIC, RTE_APPL_DATA) dlc);
 
-/*----------------------------------------------------------------------------*/
-/* Function Prototypes                                                        */
-/*----------------------------------------------------------------------------*/
-// FUNC(Std_ReturnType, COMHWAB_CODE) ComHwAb_CanTransmit(
-//     VAR(uint16, AUTOMATIC) signalID,
-//     P2CONST(uint8, AUTOMATIC, RTE_APPL_DATA) data,
-//     VAR(uint8, AUTOMATIC) length);
-
-FUNC(Std_ReturnType, COMHWAB_CODE) ComHwAb_CanReceive(
-    VAR(uint16, AUTOMATIC) signalID,
-    P2VAR(uint8, AUTOMATIC, RTE_APPL_DATA) data,
-    P2VAR(uint8, AUTOMATIC, RTE_APPL_DATA) length);
-
-#ifdef __cplusplus
-} /* extern "C" */
-#endif
-
-#endif /* COMHWAB_CAN_H */
+#endif /* CAN_H */

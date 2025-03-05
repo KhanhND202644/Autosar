@@ -1,13 +1,13 @@
 #include "../Inc/Rte_CalibPara.h"
+#include "../../BSW/Inc/Services/NvM.h"
 
-/* Static Variables */
-static uint16 speedThreshold = 120;
-
-/****************************************************************************/
 /* Provide Calibration Data (Rte_Write) */
-/****************************************************************************/
-FUNC(Std_ReturnType, RTE_CODE_ECU2) Rte_Write_RP_CalibPara_SpeedThreshold(VAR(uint16, AUTOMATIC) threshold)
+FUNC(Std_ReturnType, RTE_CODE) Rte_Write_SpeedThreshold(uint16 threshold)
 {
-    speedThreshold = threshold;
-    return RTE_E_OK;
+    return NvM_WriteBlock(NVM_BLOCK_ID_CALIB, &threshold);
+}
+
+FUNC(Std_ReturnType, RTE_CODE) Rte_Read_SpeedThreshold(uint16* threshold)
+{
+    return NvM_ReadBlock(NVM_BLOCK_ID_CALIB, &threshold);
 }

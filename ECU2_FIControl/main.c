@@ -5,9 +5,11 @@
 #include "RTE/Inc/Rte_NvM.h"
 #include "RTE/Inc/Rte_Dem.h"
 #include "RTE/Inc/Rte_CalibPara.h"
+#include "ASW/Inc/FIControlSWC.h"
+#include "ASW/Inc/NvMBlockSWC.h"
+#include "ASW/Inc/CalibParaSWC.h"
 
 #include <stdio.h>
-#include <unistd.h>  /* For sleep function */
 
 /*----------------------------------------------------------------------------*/
 /* Main Function                                                              */
@@ -17,46 +19,25 @@ int main(void)
     printf("ECU2_FIControl: System Initializing...\n");
     StartOS(); /* Initialize OS */
     
-    /* Restore last stored speed from NvM */
-    VAR(uint16, AUTOMATIC) restoredSpeed = 0;
-    NvM_ReadSpeed(&restoredSpeed);
-    printf("Restored Speed from NvM: %u km/h\n", restoredSpeed);
+    /* Initialize core system services */
+    Dem_Init(); /* Initialize Diagnostic Event Manager */
+    NvM_Init(); /* Initialize Non-Volatile Memory */
+    R_CalibParaSWC_Init(); /* Initialize Calibration Parameters */
+    R_FIControl_Init(); /* Initialize FIControl */
     
-    /* Simulated system loop */
-    for (int cycle = 0; cycle < 10; cycle++)
+    /* Activate OS Tasks */
+    ActivateTask(TASK_FICONTROL);
+    ActivateTask(TASK_CANCOMM);
+    ActivateTask(TASK_DEM);
+    ActivateTask(TASK_WDGM);
+    ActivateTask(TASK_NVM);
+    ActivateTask(TASK_CALIBPARA);
+    
+    /* OS will handle all processing, main function does not interact with RTE */
+    while (1)
     {
-        printf("\n[Cycle %d]\n", cycle);
         Os_RunScheduler(); /* Run OS tasks */
-
-        /* Simulate CAN message reception */
-        VAR(float, AUTOMATIC) speed = 80.0F + cycle * 5; /* Increasing speed */
-        printf("Simulating CAN reception: Speed = %.2f km/h\n", speed);
-        Rte_Write_CanSpeed(speed);
-        
-        /* Run FIControlSWC processing */
-        R_CheckSpeed();
-        
-        /* Check if overspeed occurs */
-        if (speed > 120.0F)
-        {
-            Dem_ReportErrorStatus(0x1234, DEM_EVENT_STATUS_FAILED);
-        }
-        
-        /* Save speed to NvM (Flash Memory) */
-        NvM_WriteSpeed((uint16)speed);
-        
-        /* Read back speed from NvM for verification */
-        VAR(uint16, AUTOMATIC) flashSpeed = 0;
-        NvM_ReadSpeed(&flashSpeed);
-        printf("Verified Speed in NvM: %u km/h\n", flashSpeed);
-        
-        /* Trigger Watchdog */
-        R_TriggerWatchdog();
-        
-        /* Simulate system delay */
-        sleep(1);
     }
     
-    printf("ECU2_FIControl: System shutting down.\n");
     return 0;
 }

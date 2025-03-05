@@ -18,46 +18,33 @@ extern "C" {
 /* Function Prototypes                                                        */
 /*----------------------------------------------------------------------------*/
 /**
+ * @brief Erases data from Flash memory
+ * @param address The address to erase
+ * @param length Length of data to erase in bytes
+ * @return Std_ReturnType - E_OK if successful, E_NOT_OK if failed
+ */
+FUNC(Std_ReturnType, FLASHDRV_CODE) FlashDrv_Erase(uint32 address, uint32 length);
+
+/**
  * @brief Writes data to Flash memory
  * @param address The address to write to
  * @param data Pointer to the data to be written
  * @param length Length of data in bytes
  * @return Std_ReturnType - E_OK if successful, E_NOT_OK if failed
  */
-FUNC(Std_ReturnType, FLASHDRV_CODE) FlashDrv_Write(
-    VAR(uint32, AUTOMATIC) address,
-    P2CONST(uint8, AUTOMATIC, RTE_APPL_DATA) data,
-    VAR(uint16, AUTOMATIC) length);
+FUNC(Std_ReturnType, FLASHDRV_CODE) FlashDrv_Write(uint32 address, const uint8* data, uint32 length);
 
 /**
  * @brief Reads data from Flash memory
  * @param address The address to read from
- * @param data Pointer to buffer for storing read data
- * @param length Length of data in bytes
+ * @param data Pointer to the buffer where data will be stored
+ * @param length Length of data to read in bytes
  * @return Std_ReturnType - E_OK if successful, E_NOT_OK if failed
  */
-FUNC(Std_ReturnType, FLASHDRV_CODE) FlashDrv_Read(
-    VAR(uint32, AUTOMATIC) address,
-    P2VAR(uint8, AUTOMATIC, RTE_APPL_DATA) data,
-    VAR(uint16, AUTOMATIC) length);
-
-/**
- * @brief Erases a section of Flash memory
- * @param address The start address of the erase operation
- * @param length Number of bytes to erase
- * @return Std_ReturnType - E_OK if successful, E_NOT_OK if failed
- */
-FUNC(Std_ReturnType, FLASHDRV_CODE) FlashDrv_Erase(
-    VAR(uint32, AUTOMATIC) address,
-    VAR(uint16, AUTOMATIC) length);
+FUNC(Std_ReturnType, FLASHDRV_CODE) FlashDrv_Read(uint32 address, uint8* data, uint32 length);
 
 #ifdef __cplusplus
-} /* extern "C" */
+}
 #endif
 
 #endif /* FLASHDRV_H */
-
-// Function declarations for Flash Driver operations
-extern Std_ReturnType Fls_Write(uint32 address, const uint8* data, uint32 length);
-extern Std_ReturnType Fls_Read(uint32 address, uint8* data, uint32 length);
-extern Std_ReturnType Fls_Erase(uint32 address, uint32 length);

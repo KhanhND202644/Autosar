@@ -6,26 +6,17 @@ void MemIf_Init(void) {
     printf("MemIf: Initialized\n");
 }
 
-bool MemIf_Write(MemIf_MemoryType memType, uint32_t address, const uint8_t *data, uint32_t length) {
-    if (memType == MEMIF_EEPROM) {
-        return Eep_Write(address, data, length);
-    } else if (memType == MEMIF_FLASH) {
-        return Fls_Write(address, data, length);
-    }
-    return false;
+bool MemIf_Write(MemIf_MemoryType memType, uint32 address, const uint8* data, uint32 length) {
+    (void)memType;
+    return FlashDrv_Write(address, data, length) == E_OK;
 }
 
-bool MemIf_Read(MemIf_MemoryType memType, uint32_t address, uint8_t *data, uint32_t length) {
-    if (memType == MEMIF_EEPROM) {
-        return Eep_Read(address, data, length);
-    } else if (memType == MEMIF_FLASH) {
-        return Fls_Read(address, data, length);
-    }
-    return false;
+bool MemIf_Read(MemIf_MemoryType memType, uint32 address, uint8* data, uint32 length) {
+    (void)memType;
+    return FlashDrv_Read(address, data, length) == E_OK;
 }
 
-void MemIf_Erase(MemIf_MemoryType memType, uint32_t address, uint32_t length) {
-    if (memType == MEMIF_FLASH) {
-        Fls_Erase(address, length);
-    }
+void MemIf_Erase(MemIf_MemoryType memType, uint32 address, uint32 length) {
+    (void)memType;
+    FlashDrv_Erase(address, length);
 }

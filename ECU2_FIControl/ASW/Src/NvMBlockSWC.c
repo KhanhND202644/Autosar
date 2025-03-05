@@ -1,24 +1,36 @@
 #include "../Inc/NvMBlockSWC.h"
 #include "../../RTE/Inc/Rte_NvM.h"
+#include "../../RTE/Inc/Rte_DEM.h"
+
 #include <stdio.h>
 
-/* Static Variables */
-static VAR(uint16, NVMBLOCK_VAR) storedSpeed = 0;
-
-/* Initialize NvM Block SWC */
-FUNC(void, NVMBLOCK_CODE) NvMBlockSWC_Init(VAR(void, AUTOMATIC))
-{
-    printf("NvM Block SWC Initialized.\n");
-}
+/* Static Variable */
+static VAR(float, AUTOMATIC) storedSpeed = 0;
 
 /* Runnable: Save Speed to NVM */
-FUNC(Std_ReturnType, NVMBLOCK_CODE) R_SaveSpeed(VAR(void, AUTOMATIC))
+FUNC(Std_ReturnType, NVMBLOCK_CODE) R_SaveSpeed(void)
 {
-    return Rte_Write_StoredSpeed(storedSpeed);
+    Std_ReturnType status = Rte_Write_NvMBlock_StoredSpeed(storedSpeed);
+    if (status != E_OK)
+    {
+        Rte_Call_DEM_ReportErrorStatus(DTC_P1600_NVM_STORAGE_FAILURE, DEM_EVENT_STATUS_FAILED);
+        return E_NOT_OK;
+    }
+    return E_OK;
 }
 
 /* Runnable: Read Speed from NVM */
-FUNC(Std_ReturnType, NVMBLOCK_CODE) R_ReadSpeedFromNVM(VAR(void, AUTOMATIC))
+FUNC(Std_ReturnType, NVMBLOCK_CODE) R_ReadSpeedFromNVM(void)
 {
-    return Rte_Read_StoredSpeed(&storedSpeed);
+    uint16 tempSpeed;
+    Std_ReturnType status = Rte_Read_NvMBlock_StoredSpeed(&tempSpeed);
+    storedSpeed = (float)tempSpeed / 10.0F;  // Convert to float
+    
+    if (status != E_OK)
+    {
+        Rte_Call_DEM_ReportErrorStatus(DTC_P1600_NVM_STORAGE_FAILURE, DEM_EVENT_STATUS_FAILED);
+        storedSpeed = 0.0F; // Safe fallback value
+        return E_NOT_OK;
+    }
+    return E_OK;
 }

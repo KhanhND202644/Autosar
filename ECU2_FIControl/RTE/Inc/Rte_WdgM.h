@@ -12,6 +12,8 @@ extern "C" {
 /* Function Prototypes                                                        */
 /*----------------------------------------------------------------------------*/
 FUNC(Std_ReturnType, WDGM_CODE) R_TriggerWatchdog(VAR(void, AUTOMATIC));
+FUNC(Std_ReturnType, RTE_CODE) Rte_Call_WdgIf_TriggerWatchdog(void);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -3,6 +3,7 @@
 
 #include "../../../Common/Std_ReturnType.h"
 #include "../../../Common/Compiler.h"
+#include "MemIf.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -19,12 +20,15 @@ extern "C" {
 /*----------------------------------------------------------------------------*/
 /* Function Prototypes                                                        */
 /*----------------------------------------------------------------------------*/
+typedef struct {
+    uint16 BlockID;
+    uint16 BlockSize;
+    uint8  NvRamAttributes;
+} NvM_BlockDescriptorType;
+
+
 FUNC(Std_ReturnType, NVM_CODE) NvM_WriteSpeed(VAR(uint16, AUTOMATIC) speed);
 FUNC(Std_ReturnType, NVM_CODE) NvM_ReadSpeed(P2VAR(uint16, AUTOMATIC, RTE_APPL_DATA) speed);
-
-FUNC(Std_ReturnType, NVM_CODE) NvM_WriteError(VAR(uint16, AUTOMATIC) EventID, VAR(uint8, AUTOMATIC) EventStatus);
-FUNC(Std_ReturnType, NVM_CODE) NvM_ReadError(P2VAR(uint16, AUTOMATIC, RTE_APPL_DATA) EventID, P2VAR(uint8, AUTOMATIC, RTE_APPL_DATA) EventStatus);
-
 FUNC(Std_ReturnType, NVM_CODE) NvM_WriteCalibration(VAR(uint16, AUTOMATIC) calibrationValue);
 FUNC(Std_ReturnType, NVM_CODE) NvM_ReadCalibration(P2VAR(uint16, AUTOMATIC, RTE_APPL_DATA) calibrationValue);
 
@@ -34,11 +38,12 @@ extern VAR(uint16, AUTOMATIC) NvM_StoredErrorID;
 extern VAR(uint8, AUTOMATIC) NvM_StoredErrorStatus;
 extern VAR(uint16, AUTOMATIC) NvM_StoredCalibration;
 
+
 #ifdef __cplusplus
 } /* extern "C" */
 #endif
 
 #endif /* NVM_H */
 
-// Function declaration for NvM_WriteBlock
-extern Std_ReturnType NvM_WriteBlock(uint32 BlockID, P2VAR(uint16, AUTOMATIC, NVM_APPL_DATA) DataPtr);
+
+

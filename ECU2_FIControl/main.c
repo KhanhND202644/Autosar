@@ -1,4 +1,3 @@
-#include "BSW/Inc/Services/Os.h"
 #include "RTE/Inc/Rte_FIControl.h"
 #include "RTE/Inc/Rte_Can.h"
 #include "RTE/Inc/Rte_WdgM.h"
@@ -26,12 +25,12 @@ int main(void)
     R_FIControl_Init(); /* Initialize FIControl */
     
     /* Activate OS Tasks */
-    ActivateTask(TASK_FICONTROL);
-    ActivateTask(TASK_CANCOMM);
-    ActivateTask(TASK_DEM);
-    ActivateTask(TASK_WDGM);
-    ActivateTask(TASK_NVM);
-    ActivateTask(TASK_CALIBPARA);
+    // ActivateTask(TASK_FICONTROL);
+    // ActivateTask(TASK_CANCOMM);
+    // ActivateTask(TASK_DEM);
+    // ActivateTask(TASK_WDGM);
+    // ActivateTask(TASK_NVM);
+    // ActivateTask(TASK_CALIBPARA);
     
     /* OS will handle all processing, main function does not interact with RTE */
     while (1)

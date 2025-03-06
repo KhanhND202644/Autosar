@@ -29,6 +29,7 @@
         "random": "c",
         "rte_can.h": "c",
         "rte_ficontrol.h": "c",
-        "canif.h": "c"
+        "canif.h": "c",
+        "rte_wdgm.h": "c"
     }
 }

@@ -26,14 +26,14 @@ void StartOS(void) {
         Task_CAN_Comm();
         Task_ReadSpeed();
         Task_ControlInjector();
-        if (/* 100ms condition */) {
-            Task_SaveSpeed();
-            Task_ErrorHandling();
-            Task_NVM_Logging();
-        }
-        if (/* 50ms condition */) {
-            Task_Watchdog();
-        }
+        // if (/* 100ms condition */) {
+        //     Task_SaveSpeed();
+        //     Task_ErrorHandling();
+        //     Task_NVM_Logging();
+        // }
+        // if (/* 50ms condition */) {
+        //     Task_Watchdog();
+        // }
     }
 }
 
@@ -61,14 +61,12 @@ void Task_SaveSpeed(void) {
     Rte_Write_NvMBlock_StoredSpeed(storedSpeed);
 }
 
-void Task_ErrorHandling(void) {
-    if (!/* CAN valid */) {
-        Rte_Call_DEM_ReportErrorStatus(/* DTC_CAN_ERROR */, DEM_EVENT_STATUS_FAILED);
-    }
-}
+// void Task_ErrorHandling(void) {
+//     return ;
+// }
 
 void Task_Watchdog(void) {
-    WdgIf_TriggerWatchdog();
+    R_TriggerWatchdog();
 }
 
 void Task_CalibPara(void) {

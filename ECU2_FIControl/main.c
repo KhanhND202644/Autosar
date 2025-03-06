@@ -21,7 +21,7 @@ int main(void)
     
     /* Initialize core system services */
     Dem_Init(); /* Initialize Diagnostic Event Manager */
-    NvM_Init(); /* Initialize Non-Volatile Memory */
+    // NvM_Init(); /* Initialize Non-Volatile Memory */
     R_CalibParaSWC_Init(); /* Initialize Calibration Parameters */
     R_FIControl_Init(); /* Initialize FIControl */
     

@@ -14,9 +14,9 @@ extern "C" {
 /*----------------------------------------------------------------------------*/
 
 /* Read speed data from CAN */
-extern FUNC(Std_ReturnType, RTE_CODE_ECU2) Rte_Read_RP_FIControl_ReceiveSpeed(
+extern FUNC(Std_ReturnType, RTE_CODE_ECU2) Rte_Read_RP_FIControl_InjectorState(
     P2VAR(uint16, AUTOMATIC, RTE_APPL_DATA) speed);
-#define Rte_Read_ReceiveSpeed Rte_Read_RP_FIControl_ReceiveSpeed
+#define Rte_Read_InjectorState Rte_Read_RP_FIControl_InjectorState
 
 /* Write injector state */
 extern FUNC(Std_ReturnType, RTE_CODE_ECU2) Rte_Write_RP_FIControl_InjectorState(

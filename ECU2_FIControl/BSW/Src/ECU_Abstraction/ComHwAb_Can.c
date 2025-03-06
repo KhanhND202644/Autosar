@@ -5,7 +5,7 @@
 /*----------------------------------------------------------------------------*/
 /* CAN Reception Implementation                                               */
 /*----------------------------------------------------------------------------*/
-FUNC(Std_ReturnType, COMHWAB_CAN_CODE) ComHwAb_Can_Receive(VAR(uint16, AUTOMATIC) signalID, VAR(uint8*, AUTOMATIC) data)
+FUNC(Std_ReturnType, COMHWAB_CAN_CODE) ComHwAb_CanReceive(VAR(uint16, AUTOMATIC) signalID, VAR(uint8*, AUTOMATIC) data)
 {
     (void)signalID;
     VAR(Std_ReturnType, AUTOMATIC) ret_val = E_OK;
@@ -13,8 +13,6 @@ FUNC(Std_ReturnType, COMHWAB_CAN_CODE) ComHwAb_Can_Receive(VAR(uint16, AUTOMATIC
     
     /* Map signalID to CAN PDU ID */
     pduId = CAN_ID_SPEED_DATA;  
-    
-    /* Receive CAN data from CanIf */
     ret_val = CanDrv_Receive(pduId, data); 
 
 

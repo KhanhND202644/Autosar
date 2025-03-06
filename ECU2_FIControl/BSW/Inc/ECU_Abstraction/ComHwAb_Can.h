@@ -34,7 +34,7 @@ typedef uint16 CanIf_RxPduIdType; /* Define CanIf_RxPduIdType if not in CanIf.h 
 /*----------------------------------------------------------------------------*/
 /* Function Prototypes                                                        */
 /*----------------------------------------------------------------------------*/
-FUNC(Std_ReturnType, COMHWAB_CODE) ComHwAb_CanReceive(
+FUNC(Std_ReturnType, COMHWAB_CODE) ComHwAb_Can_Receive(
     VAR(uint16, AUTOMATIC) signalID,
     P2VAR(float, AUTOMATIC, RTE_APPL_DATA) speed);
 

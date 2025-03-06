@@ -3,6 +3,7 @@
 #include "../../RTE/Inc/Rte_Can.h"
 #include "../../RTE/Inc/Rte_NvM.h"
 #include "../../RTE/Inc/Rte_WdgM.h"
+#include "../../RTE/Inc/Rte_CalibPara.h"
 #include <stdio.h>
 
 /* Static Variables */
@@ -27,7 +28,7 @@ FUNC(void, FICONTROL_CODE) R_FIControl_Init(void)
     {
         storedSpeed = 0.0F;
         if (!Rte_Call_DEM_CheckErrorConfirmed(DTC_P1600_NVM_STORAGE_FAILURE)) {
-            Rte_Call_Dem_ReportErrorStatus(DTC_P1600_NVM_STORAGE_FAILURE, DEM_EVENT_STATUS_FAILED);
+            Rte_Call_DEM_ReportErrorStatus(DTC_P1600_NVM_STORAGE_FAILURE, DEM_EVENT_STATUS_FAILED);
         }
     }
 }
@@ -39,11 +40,13 @@ FUNC(Std_ReturnType, FICONTROL_CODE) R_FIControl_CheckSpeed(void)
     VAR(uint16, AUTOMATIC) speedThreshold;
     
     /* Read speed from CAN */
-    status = Rte_Read_RxSpeed_CANMessage(&currentSpeed);
+    uint8 canData[4];
+    uint8 dlc = 4;
+    status = Rte_Read_RxSpeed_CANMessage(canData, &dlc);
     if (status != E_OK)
     {
         if (!Rte_Call_DEM_CheckErrorConfirmed(DTC_U0100_LOST_COMM)) {
-            Rte_Call_Dem_ReportErrorStatus(DTC_U0100_LOST_COMM, DEM_EVENT_STATUS_FAILED);
+            Rte_Call_DEM_ReportErrorStatus(DTC_U0100_LOST_COMM, DEM_EVENT_STATUS_FAILED);
         }
         printf("FIControlSWC: Failed to read speed from CAN. Using default.\n");
         currentSpeed = 0.0F;
@@ -53,7 +56,7 @@ FUNC(Std_ReturnType, FICONTROL_CODE) R_FIControl_CheckSpeed(void)
     status = Rte_Read_SpeedThreshold(&speedThreshold);
     if (status != E_OK)
     {
-        speedThreshold = 100; /* Default fallback */
+        speedThreshold = 120; /* Default fallback */
     }
     
     /* Compare speed with the dynamic threshold */
@@ -61,7 +64,7 @@ FUNC(Std_ReturnType, FICONTROL_CODE) R_FIControl_CheckSpeed(void)
     {
         injectorState = 0; /* Turn off injector */
         if (!Rte_Call_DEM_CheckErrorConfirmed(DTC_P1220_FI_VALVE_ERROR)) {
-            Rte_Call_Dem_ReportErrorStatus(DTC_P1220_FI_VALVE_ERROR, DEM_EVENT_STATUS_FAILED);
+            Rte_Call_DEM_ReportErrorStatus(DTC_P1220_FI_VALVE_ERROR, DEM_EVENT_STATUS_FAILED);
         }
     }
     else
@@ -74,7 +77,7 @@ FUNC(Std_ReturnType, FICONTROL_CODE) R_FIControl_CheckSpeed(void)
     if (status != E_OK)
     {
         if (!Rte_Call_DEM_CheckErrorConfirmed(DTC_P1220_FI_VALVE_ERROR)) {
-            Rte_Call_Dem_ReportErrorStatus(DTC_P1220_FI_VALVE_ERROR, DEM_EVENT_STATUS_FAILED);
+            Rte_Call_DEM_ReportErrorStatus(DTC_P1220_FI_VALVE_ERROR, DEM_EVENT_STATUS_FAILED);
         }
         return E_NOT_OK;
     }
@@ -87,7 +90,7 @@ FUNC(Std_ReturnType, FICONTROL_CODE) R_FIControl_CheckSpeed(void)
         if (status != E_OK)
         {
             if (!Rte_Call_DEM_CheckErrorConfirmed(DTC_P1600_NVM_STORAGE_FAILURE)) {
-                Rte_Call_Dem_ReportErrorStatus(DTC_P1600_NVM_STORAGE_FAILURE, DEM_EVENT_STATUS_FAILED);
+                Rte_Call_DEM_ReportErrorStatus(DTC_P1600_NVM_STORAGE_FAILURE, DEM_EVENT_STATUS_FAILED);
             }
         }
     }
@@ -95,5 +98,21 @@ FUNC(Std_ReturnType, FICONTROL_CODE) R_FIControl_CheckSpeed(void)
     /* Trigger Watchdog */
     Rte_Call_WdgIf_TriggerWatchdog();
     
+    return E_OK;
+}
+
+FUNC(Std_ReturnType, FICONTROL_CODE) R_ControlFuelInjector(void) {
+    VAR(uint8, AUTOMATIC) state;
+    Std_ReturnType status = Rte_Read_RP_FIControl_InjectorState(&state);
+
+    if (status == E_OK) {
+        status = Rte_Write_InjectorState(state);
+        if (status != E_OK) {
+            return E_NOT_OK; 
+        }
+    } else {
+        return E_NOT_OK; 
+    }
+
     return E_OK;
 }

@@ -1,8 +1,8 @@
 #ifndef WDGM_H
 #define WDGM_H
 
-#include "../../Common/Std_ReturnType.h"
-#include "../../Common/Compiler.h"
+#include "../../../Common/Std_ReturnType.h"
+#include "../../../Common/Compiler.h"
 
 /*----------------------------------------------------------------------------*/
 /* Watchdog Driver API Definitions                                           */

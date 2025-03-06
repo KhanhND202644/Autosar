@@ -1,5 +1,6 @@
 #include "../../Inc/Services/Dem.h"
 #include "../../Inc/Services/NvM.h"
+#include <stddef.h>
 
 /*----------------------------------------------------------------------------*/
 /* Report Error to NvM                                                        */
@@ -19,3 +20,5 @@ FUNC(Std_ReturnType, DEM_CODE) Dem_ReportErrorStatus(VAR(uint16, AUTOMATIC) DTC,
     (void) status;
     return NvM_WriteBlock(NVM_BLOCK_ID_ERRORS, &DTC);
 }
+
+
